@@ -24,16 +24,16 @@ M.rootEdit = function ()
 
   vim.cmd('below split')
   vim.cmd('terminal ' .. M.config.editor .. ' mv ' .. new .. ' ' .. old
-          .. ' && doas chown '..chown[1]..':'..chown[2]..'  ' .. ' ' .. old)
+          .. ' && '.. M.config.editor ..' chown '..chown[1]..':'..chown[2]..'  ' .. ' ' .. old)
 end
 
 M.setup = function (opts)
   M.config = vim.tbl_extend('force', M.config, opts)
   local editor = M.config.editor
   if editor == "sudo" or editor == "doas"   then
-    vim.api.nvim_err_write("editor not equal sudo/doas in root-edit setup\n")
-  else
     vim.api.nvim_create_user_command("RootEdit", M.rootEdit, {})
+  else
+    vim.api.nvim_err_write("editor not equal sudo/doas in root-edit setup\n")
   end
 end
 
